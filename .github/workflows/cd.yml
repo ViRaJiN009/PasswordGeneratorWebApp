@@ -27,6 +27,9 @@ jobs:
       - name: Publish
         run: dotnet publish PasswordGeneratorWebApp/PasswordGeneratorWebApp.csproj --configuration Release --output ./publish
 
+      - name: Install Railway CLI
+        run: npm install -g railway
+
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
