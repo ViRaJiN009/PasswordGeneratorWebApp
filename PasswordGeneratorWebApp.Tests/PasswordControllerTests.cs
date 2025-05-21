@@ -54,5 +54,27 @@ namespace PasswordGeneratorWebApp.Tests
             Assert.NotNull(result);
             Assert.Equal("Error", result.ViewName);
         }
+
+        [Fact]
+        public void GeneratePassword_ValidRequest_ReturnsOkResultWithPassword()
+        {
+            // Arrange
+            var controller = new PasswordController();
+            var model = new PasswordModel
+            {
+                Length = 12,
+                IncludeUppercase = true,
+                IncludeNumbers = true,
+                IncludeSpecialCharacters = true
+            };
+
+            // Act
+            var result = controller.GeneratePassword(model);
+            var okResult = Assert.IsType<ActionResult<string>>(result);
+            string password = okResult.Value;
+
+            // Assert
+            Assert.False(string.IsNullOrEmpty(password));
+        }
     }
 }
