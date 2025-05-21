@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="~/css/site.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Password Generator</h1>
+        <form asp-controller="Password" asp-action="GeneratePassword" method="post">
+            <div class="form-group">
+                <label for="Length">Password Length:</label>
+                <input type="number" id="Length" name="Length" min="1" required />
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="IncludeUppercase" /> Include Uppercase Letters
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="IncludeNumbers" /> Include Numbers
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="IncludeSpecialCharacters" /> Include Special Characters
+                </label>
+            </div>
+            <button type="submit">Generate Password</button>
+        </form>
+
+        @if (ViewBag.GeneratedPassword != null)
+        {
+            <h2>Your Generated Password:</h2>
+            <p>@ViewBag.GeneratedPassword</p>
+        }
+    </div>
+</body>
+</html>

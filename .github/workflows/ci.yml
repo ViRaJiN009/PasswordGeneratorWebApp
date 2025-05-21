@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore PasswordGeneratorWebApp.sln
+
+      - name: Build
+        run: dotnet build PasswordGeneratorWebApp.sln --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test PasswordGeneratorWebApp.Tests/PasswordGeneratorWebApp.Tests.csproj --configuration Release --no-build --verbosity normal
