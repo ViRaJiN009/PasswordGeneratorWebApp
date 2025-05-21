@@ -27,12 +27,12 @@ namespace PasswordGeneratorWebApp.Tests
             };
 
             // Act
-            var result = _controller.GeneratePassword(model) as ViewResult;
+            var result = _controller.GeneratePassword(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<string>(result.ViewData["GeneratedPassword"]);
-            Assert.Equal(12, ((string)result.ViewData["GeneratedPassword"]).Length);
+            var okResult = Assert.IsType<ActionResult<string>>(result);
+            Assert.False(string.IsNullOrEmpty(okResult.Value));
+            Assert.Equal(12, okResult.Value.Length);
         }
 
         [Fact]
@@ -48,11 +48,11 @@ namespace PasswordGeneratorWebApp.Tests
             };
 
             // Act
-            var result = _controller.GeneratePassword(model) as ViewResult;
+            var result = _controller.GeneratePassword(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal("Error", result.ViewName);
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+            Assert.Equal("Invalid password length.", badRequestResult.Value);
         }
 
         [Fact]
