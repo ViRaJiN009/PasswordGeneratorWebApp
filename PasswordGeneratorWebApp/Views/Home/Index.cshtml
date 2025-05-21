@@ -13,7 +13,7 @@
         }
         <h1>Password Generator</h1>
         <p>Welcome! Use the API endpoint <code>/Password</code> to generate passwords.</p>
-        <form asp-controller="Password" asp-action="GeneratePassword" method="post">
+        <form action="/Password/GeneratePassword" method="post">
             <div class="form-group">
                 <label for="Length">Password Length:</label>
                 <input type="number" id="Length" name="Length" min="1" required />
