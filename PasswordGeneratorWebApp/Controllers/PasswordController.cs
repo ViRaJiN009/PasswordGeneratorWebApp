@@ -23,6 +23,9 @@ namespace PasswordGeneratorWebApp.Controllers
             var password = new string(Enumerable.Repeat(chars, model.Length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
+            var okResult = Assert.IsType<ActionResult<string>>(result);
+            string password = okResult.Value;
+
             return Ok(password);
         }
     }
