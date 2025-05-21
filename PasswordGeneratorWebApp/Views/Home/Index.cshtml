@@ -8,7 +8,11 @@
 </head>
 <body>
     <div class="container">
+        @{
+            ViewData["Title"] = "Password Generator";
+        }
         <h1>Password Generator</h1>
+        <p>Welcome! Use the API endpoint <code>/Password</code> to generate passwords.</p>
         <form asp-controller="Password" asp-action="GeneratePassword" method="post">
             <div class="form-group">
                 <label for="Length">Password Length:</label>

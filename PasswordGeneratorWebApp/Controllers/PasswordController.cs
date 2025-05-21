@@ -3,17 +3,18 @@ using PasswordGeneratorWebApp.Models;
 
 namespace PasswordGeneratorWebApp.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class PasswordController : ControllerBase
+    public class PasswordController : Controller
     {
         [HttpPost]
-        public ActionResult<string> GeneratePassword([FromBody] PasswordModel model)
+        public IActionResult GeneratePassword(PasswordModel model)
         {
             if (model.Length <= 0)
-                return BadRequest("Invalid password length.");
+            {
+                ViewBag.GeneratedPassword = null;
+                ViewBag.Error = "Invalid password length.";
+                return View("~/Views/Home/Index.cshtml");
+            }
 
-            // Simple password generation logic for demo
             var chars = "abcdefghijklmnopqrstuvwxyz";
             if (model.IncludeUppercase) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             if (model.IncludeNumbers) chars += "0123456789";
@@ -23,7 +24,11 @@ namespace PasswordGeneratorWebApp.Controllers
             var password = new string(Enumerable.Repeat(chars, model.Length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
-            return Ok(password);
+            ViewBag.GeneratedPassword = password;
+            ViewBag.Error = null;
+            return View("~/Views/Home/Index.cshtml");
         }
     }
 }
+
+
