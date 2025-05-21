@@ -29,8 +29,5 @@ jobs:
 
       - name: Deploy to DigitalOcean
         env:
-          DO_API_TOKEN: ${{ secrets.DO_API_TOKEN }}
-        run: |
-          ssh root@your_digitalocean_ip "mkdir -p /var/www/passwordgenerator"
-          scp -r ./publish/* root@your_digitalocean_ip:/var/www/passwordgenerator
-          ssh root@your_digitalocean_ip "systemctl restart your_service_name"
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --ci
