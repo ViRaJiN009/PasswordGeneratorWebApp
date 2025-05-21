@@ -30,9 +30,10 @@ namespace PasswordGeneratorWebApp.Tests
             var result = _controller.GeneratePassword(model);
 
             // Assert
-            var okResult = Assert.IsType<ActionResult<string>>(result);
-            Assert.False(string.IsNullOrEmpty(okResult.Value));
-            Assert.Equal(12, okResult.Value.Length);
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var password = Assert.IsType<string>(okResult.Value);
+            Assert.False(string.IsNullOrEmpty(password));
+            Assert.Equal(12, password.Length);
         }
 
         [Fact]
