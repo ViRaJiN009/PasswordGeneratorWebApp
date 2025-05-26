@@ -1,45 +1,140 @@
+@{
+    ViewData["Title"] = "Password Generator";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Generator</title>
-    <link rel="stylesheet" href="~/css/site.css">
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 5vh auto;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="number"],
+        input[type="checkbox"] {
+            margin-top: 0.25rem;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        button {
+            display: inline-block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #3b82f6;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        @{
-            ViewData["Title"] = "Password Generator";
-        }
         <h1>Password Generator</h1>
-        <p>Welcome! Use the API endpoint <code>/Password</code> to generate passwords.</p>
+        <p>Use the form below to generate a secure password. Customize the length and characters included.</p>
+
         <form action="/Password/GeneratePassword" method="post">
             <div class="form-group">
-                <label for="Length">Password Length:</label>
+                <label for="Length">Password Length</label>
                 <input type="number" id="Length" name="Length" min="1" required />
             </div>
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="IncludeUppercase" /> Include Uppercase Letters
-                </label>
+
+            <div class="form-group checkbox-label">
+                <input type="hidden" name="IncludeUppercase" value="false" />
+                <input type="checkbox" name="IncludeUppercase" value="true" id="uppercase" />
+                <label for="uppercase">Include Uppercase Letters</label>
             </div>
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="IncludeNumbers" /> Include Numbers
-                </label>
+
+            <div class="form-group checkbox-label">
+                <input type="hidden" name="IncludeNumbers" value="false" />
+                <input type="checkbox" name="IncludeNumbers" value="true" id="numbers" />
+                <label for="numbers">Include Numbers</label>
             </div>
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="IncludeSpecialCharacters" /> Include Special Characters
-                </label>
+
+            <div class="form-group checkbox-label">
+                <input type="hidden" name="IncludeSpecialCharacters" value="false" />
+                <input type="checkbox" name="IncludeSpecialCharacters" value="true" id="special" />
+                <label for="special">Include Special Characters</label>
             </div>
+
             <button type="submit">Generate Password</button>
         </form>
 
         @if (ViewBag.GeneratedPassword != null)
         {
-            <h2>Your Generated Password:</h2>
-            <p>@ViewBag.GeneratedPassword</p>
+            <div class="result">
+                <strong>Your Generated Password:</strong>
+                <p>@ViewBag.GeneratedPassword</p>
+            </div>
         }
     </div>
 </body>
