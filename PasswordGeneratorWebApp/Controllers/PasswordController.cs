@@ -1,32 +1,49 @@
 using Microsoft.AspNetCore.Mvc;
-using PasswordGeneratorWebApp.Models;
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
 
 namespace PasswordGeneratorWebApp.Controllers
 {
     public class PasswordController : Controller
     {
-        [HttpPost]
-        public IActionResult GeneratePassword(PasswordModel model)
+        [HttpGet]
+        public IActionResult GeneratePassword(
+            int length = 12,
+            bool useUppercase = true,
+            bool useLowercase = true,
+            bool useNumbers = true,
+            bool useSymbols = false)
         {
-            if (model.Length <= 0)
+            var result = new Dictionary<string, string>();
+
+            if (!(useUppercase || useLowercase || useNumbers || useSymbols))
             {
-                ViewBag.GeneratedPassword = null;
-                ViewBag.Error = "Invalid password length.";
-                return View("~/Views/Home/Index.cshtml");
+                result["password"] = "";
+                result["error"] = "Please select at least one character type";
+                return Json(result);
             }
 
-            var chars = "abcdefghijklmnopqrstuvwxyz";
-            if (model.IncludeUppercase) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            if (model.IncludeNumbers) chars += "0123456789";
-            if (model.IncludeSpecialCharacters) chars += "!@#$%^&*";
+            const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string lowercase = "abcdefghijklmnopqrstuvwxyz";
+            const string numbers = "0123456789";
+            const string symbols = "!@#$%^&*()-_=+[]{}|;:,.<>?";
 
+            var charSet = new StringBuilder();
+            if (useUppercase) charSet.Append(uppercase);
+            if (useLowercase) charSet.Append(lowercase);
+            if (useNumbers) charSet.Append(numbers);
+            if (useSymbols) charSet.Append(symbols);
+
+            var chars = charSet.ToString();
             var random = new Random();
-            var password = new string(Enumerable.Repeat(chars, model.Length)
+            var password = new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
-            ViewBag.GeneratedPassword = password;
-            ViewBag.Error = null;
-            return View("~/Views/Home/Index.cshtml");
+            result["password"] = password;
+            result["error"] = "";
+            return Json(result);
         }
     }
 }
