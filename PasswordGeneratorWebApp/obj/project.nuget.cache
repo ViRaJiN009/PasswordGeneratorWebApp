@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MyrYdM4X0c0=",
+  "dgSpecHash": "ItMDL6lRj3I=",
   "success": true,
   "projectFilePath": "C:\\Users\\viraj\\OneDrive\\Desktop\\PasswdGenorator\\PasswordGeneratorWebApp\\PasswordGeneratorWebApp\\PasswordGeneratorWebApp.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\viraj\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\viraj\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\viraj\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\viraj\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }
