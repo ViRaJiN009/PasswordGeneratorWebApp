@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PasswordGeneratorWebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+677548cb8d73d1cb1a9671c5898df0fefe1dd39a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88d73dba70b39da4f5a1819d2c68f3315be45108")]
 [assembly: System.Reflection.AssemblyProductAttribute("PasswordGeneratorWebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PasswordGeneratorWebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
