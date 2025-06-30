@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace PasswordGeneratorWebApp.Controllers
 {
@@ -25,25 +26,75 @@ namespace PasswordGeneratorWebApp.Controllers
                 return Json(result);
             }
 
+            string password = GenerateAdvancedPassword(length, useUppercase, useLowercase, useNumbers, useSymbols);
+
+            result["password"] = password;
+            result["error"] = "";
+            return Json(result);
+        }
+
+        // Advanced password generator: ensures at least one of each selected type, shuffles, and uses cryptographic RNG
+        private string GenerateAdvancedPassword(int length, bool useUppercase, bool useLowercase, bool useNumbers, bool useSymbols)
+        {
             const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             const string lowercase = "abcdefghijklmnopqrstuvwxyz";
             const string numbers = "0123456789";
             const string symbols = "!@#$%^&*()-_=+[]{}|;:,.<>?";
 
-            var charSet = new StringBuilder();
-            if (useUppercase) charSet.Append(uppercase);
-            if (useLowercase) charSet.Append(lowercase);
-            if (useNumbers) charSet.Append(numbers);
-            if (useSymbols) charSet.Append(symbols);
+            var charSets = new List<string>();
+            if (useUppercase) charSets.Add(uppercase);
+            if (useLowercase) charSets.Add(lowercase);
+            if (useNumbers) charSets.Add(numbers);
+            if (useSymbols) charSets.Add(symbols);
 
-            var chars = charSet.ToString();
-            var random = new Random();
-            var password = new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            var allChars = string.Concat(charSets);
 
-            result["password"] = password;
-            result["error"] = "";
-            return Json(result);
+            // Ensure at least one character from each selected set
+            var passwordChars = new List<char>();
+            foreach (var set in charSets)
+            {
+                passwordChars.Add(set[GetRandomInt(set.Length)]);
+            }
+
+            // Fill the rest of the password
+            for (int i = passwordChars.Count; i < length; i++)
+            {
+                passwordChars.Add(allChars[GetRandomInt(allChars.Length)]);
+            }
+
+            // Shuffle the password to avoid predictable positions
+            Shuffle(passwordChars);
+
+            return new string(passwordChars.ToArray());
+        }
+
+        // Cryptographically secure random integer
+        private int GetRandomInt(int max)
+        {
+            using var rng = RandomNumberGenerator.Create();
+            var bytes = new byte[4];
+            int value;
+            do
+            {
+                rng.GetBytes(bytes);
+                value = BitConverter.ToInt32(bytes, 0) & int.MaxValue;
+            } while (value >= max * (int.MaxValue / max));
+            return value % max;
+        }
+
+        // Fisher-Yates shuffle
+        private void Shuffle(List<char> list)
+        {
+            using var rng = RandomNumberGenerator.Create();
+            int n = list.Count;
+            while (n > 1)
+            {
+                byte[] box = new byte[4];
+                rng.GetBytes(box);
+                int k = (BitConverter.ToInt32(box, 0) & int.MaxValue) % n;
+                n--;
+                (list[n], list[k]) = (list[k], list[n]);
+            }
         }
     }
 }
