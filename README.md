@@ -21,7 +21,7 @@ A modern ASP.NET Core (.NET 9) web application for generating secure passwords w
 
 1. Clone the repository:
    ```sh
-   git clone <your-repo-url>
+   git clone https://github.com/ViRaJiN009/PasswordGeneratorWebApp.git
    cd PasswordGeneratorWebApp
    ```
 
