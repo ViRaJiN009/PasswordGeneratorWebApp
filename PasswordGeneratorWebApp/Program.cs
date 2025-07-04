@@ -1,4 +1,5 @@
 using System;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Prometheus metrics middleware
+app.UseMetricServer(); // Exposes /metrics endpoint
+app.UseHttpMetrics();
 
 app.UseRouting();
 
